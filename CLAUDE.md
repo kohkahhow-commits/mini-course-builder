@@ -13,7 +13,8 @@ Everything lives at the top level:
 - `index.html` — the whole course: header, lesson menu, all lessons,
   previous/next buttons, footer.
 - `styles.css` — styling; light and dark colors are CSS variables.
-- `script.js` — theme toggle (saved in the browser) and lesson switching.
+- `script.js` — theme toggle (saved in the browser), lesson switching and
+  check-in questions.
 - `CLAUDE.md` — this file.
 
 Keep new files at the top level unless we agree on folders. Never commit the
@@ -38,8 +39,10 @@ One page (`index.html`) that shows one lesson at a time:
 2. **Lesson menu**: links to every lesson.
 3. **Lessons**: one per content slide (12 for LU01). Each has a heading and
    the slide's key points as explained paragraphs or a short list.
-4. **Quiz after each lesson** (not built yet): 1–3 multiple-choice
-   questions, checked instantly. Nothing is saved.
+4. **Check-in question** at the end of each lesson: one multiple-choice or
+   short numeric answer. Once answered it shows right/wrong, the correct
+   answer and a short explanation, then locks; "Next lesson" moves on either
+   way. Nothing is saved.
 5. **Previous/Next buttons** and a footer.
 
 Students switch lessons with the menu or Previous/Next. JavaScript shows the
@@ -49,8 +52,8 @@ back button and links to a lesson work. Without JavaScript, all lessons show.
 ### Phases
 
 - **Phase 1: course from the slides.** Done: lessons, menu, lesson
-  switching and theme toggle, with plain styling. Quizzes and slide images
-  are still to do.
+  switching, check-in questions and theme toggle, with plain styling. Slide
+  images are still to do.
 - **Phase 2: design and polish.** Visual design, then test on phone,
   tablet and desktop widths, in both themes, and with a keyboard.
 - **Later (only if asked):** extras such as a key-terms summary.

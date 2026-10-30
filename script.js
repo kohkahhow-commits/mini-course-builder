@@ -75,5 +75,66 @@ prevButton.addEventListener("click", () => goTo(currentIndex() - 1));
 nextButton.addEventListener("click", () => goTo(currentIndex() + 1));
 window.addEventListener("hashchange", () => showLesson(true));
 
+// Check-in questions: one per lesson, either multiple choice (radio buttons,
+// data-answer is the index of the right option) or short answer (a number,
+// accepted within data-tolerance). Once answered, the result and an
+// explanation show and the question locks; nothing is saved.
+function checkAnswer(form) {
+  const radios = form.querySelectorAll('input[type="radio"]');
+
+  if (radios.length > 0) {
+    const chosen = form.querySelector('input[type="radio"]:checked');
+    if (!chosen) return { error: "Choose an answer first." };
+    const right = radios[Number(form.dataset.answer)];
+    return {
+      correct: chosen === right,
+      answerText: right.parentElement.textContent.trim(),
+    };
+  }
+
+  // Accept "0.27", "0.27%" or "56.0"; ignore spaces and a trailing unit.
+  const raw = form.querySelector('input[type="text"]').value;
+  const value = parseFloat(raw.replace(/[\s,%]/g, ""));
+  if (Number.isNaN(value)) return { error: "Enter a number first." };
+  const diff = Math.abs(value - Number(form.dataset.answer));
+  return {
+    correct: diff <= Number(form.dataset.tolerance),
+    answerText: form.dataset.answerText,
+  };
+}
+
+document.querySelectorAll(".check-in").forEach((form) => {
+  const verdict = form.querySelector(".check-in-verdict");
+  const result = form.querySelector(".check-in-result");
+  const continueButton = form.querySelector(".continue");
+  const lessonIndex = lessons.indexOf(form.closest(".lesson"));
+
+  if (lessonIndex === lessons.length - 1) {
+    continueButton.remove();
+  } else {
+    continueButton.addEventListener("click", () => goTo(lessonIndex + 1));
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const outcome = checkAnswer(form);
+
+    if (outcome.error) {
+      verdict.textContent = outcome.error;
+      return;
+    }
+
+    verdict.textContent = outcome.correct
+      ? "Correct!"
+      : `Not quite. The answer is: ${outcome.answerText}`;
+    verdict.className = "check-in-verdict " + (outcome.correct ? "is-correct" : "is-incorrect");
+    form.querySelector("fieldset").disabled = true;
+    form.querySelector('button[type="submit"]').hidden = true;
+    result.hidden = false;
+  });
+
+  form.hidden = false;
+});
+
 document.querySelector(".pager").hidden = false;
 showLesson(false);

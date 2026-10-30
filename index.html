@@ -65,6 +65,21 @@
         will drift away from what we want. SPC is about spotting and
         managing that variation.
       </p>
+
+      <form class="check-in" hidden data-answer="1">
+        <fieldset>
+          <legend>Check-in: What makes the output of a process drift away from what we want?</legend>
+          <label><input type="radio" name="answer" value="0"> Using statistics to study the process</label>
+          <label><input type="radio" name="answer" value="1"> Variation in the inputs and/or the process</label>
+          <label><input type="radio" name="answer" value="2"> Measuring the output too often</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>A process turns inputs into an output, so if the inputs or the process steps vary, the output varies too.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-2" aria-labelledby="lesson-2-title">
@@ -95,6 +110,22 @@
         When a result looks wrong, running through the 6M is a quick way to
         list the places the problem might have come from.
       </p>
+
+      <form class="check-in" hidden data-answer="2">
+        <fieldset>
+          <legend>Check-in: A new vendor starts supplying the wafer substrates. Which of the 6M is this source of variation?</legend>
+          <label><input type="radio" name="answer" value="0"> Method</label>
+          <label><input type="radio" name="answer" value="1"> Machine</label>
+          <label><input type="radio" name="answer" value="2"> Material</label>
+          <label><input type="radio" name="answer" value="3"> Mother Nature</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Wafer substrates, gases and chemicals are what goes into the process, so a vendor change is a Material source.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-3" aria-labelledby="lesson-3-title">
@@ -127,6 +158,21 @@
         study. It checks that the tool's variation stays within an acceptable
         limit and that the tool is accurate and reliable.
       </p>
+
+      <form class="check-in" hidden data-answer="0">
+        <fieldset>
+          <legend>Check-in: Why does the metrology team run a GR&amp;R study before a tool measures critical parameters?</legend>
+          <label><input type="radio" name="answer" value="0"> To make sure the tool's own variation is small enough not to hide the process variation</label>
+          <label><input type="radio" name="answer" value="1"> To remove all variation from the process</label>
+          <label><input type="radio" name="answer" value="2"> To decide where the control limits go</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Total variation is process plus measurement variation. If the measurement part is large, we can't see what the process is really doing.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-4" aria-labelledby="lesson-4-title">
@@ -149,6 +195,20 @@
         yield or scrapped wafers. A process with assignable causes present is
         said to be <dfn>out of control</dfn>.
       </p>
+
+      <form class="check-in" hidden data-answer="1">
+        <fieldset>
+          <legend>Check-in: A tool is used past its replacement point and yield drops. What kind of cause is this?</legend>
+          <label><input type="radio" name="answer" value="0"> A common (natural) cause</label>
+          <label><input type="radio" name="answer" value="1"> An assignable (special) cause</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>It can be traced to something specific and it causes bad results, so it's assignable. The process is out of control.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-5" aria-labelledby="lesson-5-title">
@@ -169,6 +229,21 @@
         a sign of an assignable cause, and it's exactly what SPC is meant to
         catch.
       </p>
+
+      <form class="check-in" hidden data-answer="1">
+        <fieldset>
+          <legend>Check-in: Readings bounce between 36.9 and 37.1 for weeks, then jump to about 37.6 and stay there. What should the engineer conclude?</legend>
+          <label><input type="radio" name="answer" value="0"> Nothing: this is normal common-cause variation</label>
+          <label><input type="radio" name="answer" value="1"> An assignable cause has probably appeared and should be investigated</label>
+          <label><input type="radio" name="answer" value="2"> The chart has too many samples</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>A sudden shift that stays is the kind of change SPC is meant to catch. It points to a specific cause, not random noise.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-6" aria-labelledby="lesson-6-title">
@@ -205,6 +280,20 @@
         UCL is 74 + 3 × 0.0045 = 74.0135 and the LCL is 74 − 3 × 0.0045 =
         73.9865.
       </p>
+
+      <form class="check-in" hidden data-answer="56" data-tolerance="0.001" data-answer-text="56">
+        <fieldset>
+          <legend>Check-in: A process has a mean (μ) of 50 and a standard deviation (σ) of 2. What is the upper control limit (UCL)?</legend>
+          <label for="q6-answer">UCL</label>
+          <input type="text" id="q6-answer" name="answer" inputmode="decimal" autocomplete="off">
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>UCL = μ + 3σ = 50 + 3 × 2 = 56.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-7" aria-labelledby="lesson-7-title">
@@ -226,6 +315,21 @@
           rhythm suggests something periodic, such as operator fatigue or raw
           material running low. Treat it as a possible OOC situation.</li>
       </ul>
+
+      <form class="check-in" hidden data-answer="1">
+        <fieldset>
+          <legend>Check-in: Every point sits inside the control limits, but the points rise and fall in a regular wave. What does this suggest?</legend>
+          <label><input type="radio" name="answer" value="0"> The process is fine because no point is outside the limits</label>
+          <label><input type="radio" name="answer" value="1"> A possible out-of-control situation with a periodic cause</label>
+          <label><input type="radio" name="answer" value="2"> The control limits are too wide</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>A regular cycle isn't random. Something periodic, such as operator fatigue or raw material running low, may be behind it.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-8" aria-labelledby="lesson-8-title">
@@ -263,6 +367,21 @@
         Source: G. S. May &amp; C. J. Spanos, <cite>Semiconductor Manufacturing
         and Process Control</cite>, Ch. 6.
       </p>
+
+      <form class="check-in" hidden data-answer="1">
+        <fieldset>
+          <legend>Check-in: Which of these breaks a Western Electric rule?</legend>
+          <label><input type="radio" name="answer" value="0"> One point between 2σ and 3σ, then the next points back near the centre line</label>
+          <label><input type="radio" name="answer" value="1"> Nine points in a row above the centre line</label>
+          <label><input type="radio" name="answer" value="2"> Points scattered randomly on both sides of the centre line</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Rule 4: nine points in a row on the same side of the centre line. A single point in zone A on its own doesn't break a rule.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-9" aria-labelledby="lesson-9-title">
@@ -308,6 +427,20 @@
           </tr>
         </tbody>
       </table>
+
+      <form class="check-in" hidden data-answer="0">
+        <fieldset>
+          <legend>Check-in: Engineers stop the line to investigate an alarm, but nothing was actually wrong. Which risk is this?</legend>
+          <label><input type="radio" name="answer" value="0"> Type I (alpha): the producer's risk</label>
+          <label><input type="radio" name="answer" value="1"> Type II (beta): the consumer's risk</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Stepping in when the process was fine is crying wolf. It costs time and revenue, which is why it's called the producer's risk.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-10" aria-labelledby="lesson-10-title">
@@ -324,6 +457,20 @@
         Roughly 1 in every 370 points will raise a false alarm, purely by
         chance.
       </p>
+
+      <form class="check-in" hidden data-answer="0.27" data-tolerance="0.001" data-answer-text="0.27%">
+        <fieldset>
+          <legend>Check-in: With standard 3σ control limits, what percentage of points from an in-control process fall outside the limits just by chance?</legend>
+          <label for="q10-answer">Percentage</label>
+          <input type="text" id="q10-answer" name="answer" inputmode="decimal" autocomplete="off">
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>99.73% fall inside the ±3σ limits, so 100% − 99.73% = 0.27% fall outside. That's the alpha risk.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-11" aria-labelledby="lesson-11-title">
@@ -345,6 +492,20 @@
           many false alarms (high alpha risk). The side further away misses
           real problems (high beta risk).</li>
       </ul>
+
+      <form class="check-in" hidden data-answer="0">
+        <fieldset>
+          <legend>Check-in: The control limits are set too tight. Which risk goes up?</legend>
+          <label><input type="radio" name="answer" value="0"> Alpha risk: too many false alarms</label>
+          <label><input type="radio" name="answer" value="1"> Beta risk: real problems go unnoticed</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Tight limits get crossed by normal, stable variation, so the chart raises unnecessary OOC alarms.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
 
     <section class="lesson" id="lesson-12" aria-labelledby="lesson-12-title">
@@ -368,6 +529,20 @@
         where β is the probability of a Type II error. A low ARL here is good,
         because it means the chart catches the problem quickly.
       </p>
+
+      <form class="check-in" hidden data-answer="100" data-tolerance="0.001" data-answer-text="100 samples">
+        <fieldset>
+          <legend>Check-in: A process is in control and the chance of a Type I error (α) is 0.01. What is its average run length (ARL)?</legend>
+          <label for="q12-answer">ARL in samples</label>
+          <input type="text" id="q12-answer" name="answer" inputmode="decimal" autocomplete="off">
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>For an in-control process, ARL = 1 / α = 1 / 0.01 = 100. On average, a false alarm comes every 100 samples.</p>
+          <button type="button" class="continue">Next lesson</button>
+        </div>
+      </form>
     </section>
   </main>
 
