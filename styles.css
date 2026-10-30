@@ -1,0 +1,189 @@
+/* Plain styling for now. Colors live in variables so the theme toggle
+   only has to swap these values. */
+:root {
+  --bg: #ffffff;
+  --text: #1a1a1a;
+  --muted: #555555;
+  --border: #cccccc;
+  --link: #0645ad;
+  --surface: #f3f3f3;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --text: #e8e8e8;
+  --muted: #a8a8a8;
+  --border: #444444;
+  --link: #8ab4f8;
+  --surface: #1e1e1e;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 44rem;
+  padding: 0 1rem 2rem;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--link);
+}
+
+:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+/* Header */
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 0 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.site-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.eyebrow,
+.subtitle,
+.lesson-number {
+  margin: 0;
+  color: var(--muted);
+}
+
+button {
+  font: inherit;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* Lesson menu */
+.lesson-nav {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.lesson-nav ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.lesson-nav a[aria-current="true"] {
+  font-weight: bold;
+  color: var(--text);
+}
+
+/* Lessons */
+.lesson {
+  padding: 1rem 0;
+}
+
+.lesson h2 {
+  margin-top: 0.25rem;
+  font-size: 1.35rem;
+  line-height: 1.3;
+}
+
+.lesson h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+}
+
+.formula {
+  padding: 0.5rem 1rem;
+  background: var(--surface);
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+.source {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+caption {
+  text-align: left;
+  font-weight: bold;
+  padding-bottom: 0.5rem;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+/* Previous / next */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.lesson-status {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Without JavaScript every lesson shows, so the pager has nothing to do */
+.pager[hidden] {
+  display: none;
+}
+
+.site-footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Larger screens: a little more breathing room */
+@media (min-width: 768px) {
+  body {
+    padding: 0 2rem 3rem;
+  }
+
+  .site-header h1 {
+    font-size: 1.85rem;
+  }
+
+  .lesson-nav ol {
+    columns: 2;
+    column-gap: 2rem;
+  }
+}

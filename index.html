@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Statistical Process Control (SPC) I</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">LU01</p>
+      <h1>Statistical Process Control (SPC) I</h1>
+      <p class="subtitle">An introduction to statistical process control</p>
+    </div>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+      Dark theme
+    </button>
+  </header>
+
+  <nav class="lesson-nav" aria-label="Lessons">
+    <ol>
+      <li><a href="#lesson-1">What is SPC?</a></li>
+      <li><a href="#lesson-2">Sources of variation (6M)</a></li>
+      <li><a href="#lesson-3">Process vs measurement variation</a></li>
+      <li><a href="#lesson-4">Common and assignable causes</a></li>
+      <li><a href="#lesson-5">Purpose of SPC</a></li>
+      <li><a href="#lesson-6">Control chart basics</a></li>
+      <li><a href="#lesson-7">Patterns in control charts</a></li>
+      <li><a href="#lesson-8">Western Electric rules</a></li>
+      <li><a href="#lesson-9">Type I and Type II risks</a></li>
+      <li><a href="#lesson-10">Alpha risk and 3σ limits</a></li>
+      <li><a href="#lesson-11">Where you set the limits</a></li>
+      <li><a href="#lesson-12">Average run length</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <section class="lesson" id="lesson-1" aria-labelledby="lesson-1-title">
+      <p class="lesson-number">Lesson 1</p>
+      <h2 id="lesson-1-title" tabindex="-1">What is statistical process control?</h2>
+      <p>
+        Statistical process control (SPC) breaks down into three ideas.
+        <strong>Statistical</strong>: we work from data, not hunches.
+        <strong>Process</strong>: engineers use that data to study how a
+        process behaves. <strong>Control</strong>: the goal is to make the
+        process behave the way we want, so that it reliably gives the
+        output we need.
+      </p>
+      <p>
+        A <dfn>process</dfn> is a sequence of steps that turns inputs into a
+        required output. Take growing a gate oxide in a furnace (dry
+        oxidation in the diffusion module):
+      </p>
+      <ul>
+        <li><strong>Inputs:</strong> 130 sccm of N<sub>2</sub> flow, 60 sccm of
+          O<sub>2</sub> flow, 1000&nbsp;°C, for 100 minutes.</li>
+        <li><strong>Process:</strong> dry oxidation in the furnace.</li>
+        <li><strong>Output:</strong> a 250&nbsp;Å gate oxide that passes
+          electrical test (ET) and reliability checks.</li>
+      </ul>
+      <p>
+        The key point: if the inputs or the process itself vary, the output
+        will drift away from what we want. SPC is about spotting and
+        managing that variation.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-2" aria-labelledby="lesson-2-title">
+      <p class="lesson-number">Lesson 2</p>
+      <h2 id="lesson-2-title" tabindex="-1">Sources of variation: the 6M</h2>
+      <p>
+        Variation can creep in from many places. A handy way to remember
+        them is the <dfn>6M</dfn>: six sources that all start with M.
+      </p>
+      <ul>
+        <li><strong>Man</strong> means the people. For example, an employee
+          doesn't follow the standard operating procedure during preventive
+          maintenance.</li>
+        <li><strong>Machine</strong> means the equipment. For example,
+          components wear out and fail over time.</li>
+        <li><strong>Material</strong> means what goes in. For example, a new
+          vendor supplies the gas, chemicals or wafer substrates.</li>
+        <li><strong>Method</strong> means how the work is done. For example,
+          the order of steps in a recipe or process flow changes.</li>
+        <li><strong>Measurement</strong> means how we check results. For
+          example, a different type of metrology tool is used to measure
+          critical dimension (CD).</li>
+        <li><strong>Mother Nature</strong> means the environment. For example,
+          the particle count or relative humidity in the cleanroom
+          changes.</li>
+      </ul>
+      <p>
+        When a result looks wrong, running through the 6M is a quick way to
+        list the places the problem might have come from.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-3" aria-labelledby="lesson-3-title">
+      <p class="lesson-number">Lesson 3</p>
+      <h2 id="lesson-3-title" tabindex="-1">Process variation vs measurement variation</h2>
+      <p>
+        The spread we see in our data comes from two places: the process
+        really varying, and our measurements of it varying. Using variance
+        (σ², the square of the standard deviation), they add up:
+      </p>
+      <p class="formula">
+        σ²<sub>total</sub> = σ²<sub>process</sub> + σ²<sub>measurement</sub>
+      </p>
+      <ul>
+        <li><strong>σ²<sub>total</sub></strong> is all the variation we see in
+          the system.</li>
+        <li><strong>σ²<sub>process</sub></strong> is real variation in the
+          product, from five of the 6M: Man, Machine, Material, Method and
+          Mother Nature.</li>
+        <li><strong>σ²<sub>measurement</sub></strong> is variation added by the
+          metrology system: <dfn>equipment variation (EV)</dfn> from the tool
+          itself, and <dfn>appraiser variation (AV)</dfn> from the people
+          using it.</li>
+      </ul>
+      <p>
+        If the measurement variation is large, it hides what the process is
+        really doing. That's why keeping measurement variation small is key.
+        Before a tool is used to measure critical parameters, the metrology
+        team runs a <dfn>gage repeatability and reproducibility (GR&amp;R)</dfn>
+        study. It checks that the tool's variation stays within an acceptable
+        limit and that the tool is accurate and reliable.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-4" aria-labelledby="lesson-4-title">
+      <p class="lesson-number">Lesson 4</p>
+      <h2 id="lesson-4-title" tabindex="-1">Common and assignable causes of variation</h2>
+      <h3>Common (natural) causes</h3>
+      <p>
+        Every process has some natural variability built in. It comes from
+        many small, random causes that are unknown and essentially
+        unavoidable, adding up together. These causes are always present and
+        don't lead to bad results. A process with only common causes of
+        variation is said to be <dfn>in statistical control</dfn>.
+      </p>
+      <h3>Assignable (special) causes</h3>
+      <p>
+        These are not random. They can be traced to something specific, such
+        as a change of material vendor, a tool used past its replacement
+        point, or variation in incoming material. They aren't present all the
+        time, but when they are, they often cause bad results such as lower
+        yield or scrapped wafers. A process with assignable causes present is
+        said to be <dfn>out of control</dfn>.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-5" aria-labelledby="lesson-5-title">
+      <p class="lesson-number">Lesson 5</p>
+      <h2 id="lesson-5-title" tabindex="-1">The purpose of SPC</h2>
+      <p>
+        SPC does two jobs. It monitors how stable a process is over time. It
+        also lets engineers step in correctly, and with confidence, when an
+        assignable cause turns up. It does this using control charts and
+        statistics.
+      </p>
+      <p>
+        Picture two charts of the same measurement over time. In the first,
+        the values bounce up and down around 37.0 but stay in a narrow band
+        (about 36.9 to 37.1). That's common-cause variation, and nothing needs
+        fixing. In the second, the values bounce around 37.0 for a while,
+        then suddenly jump and stay around 37.5 to 37.7. That sudden shift is
+        a sign of an assignable cause, and it's exactly what SPC is meant to
+        catch.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-6" aria-labelledby="lesson-6-title">
+      <p class="lesson-number">Lesson 6</p>
+      <h2 id="lesson-6-title" tabindex="-1">Control chart basics</h2>
+      <p>
+        A <dfn>control chart</dfn> is a way to monitor a process while it runs.
+        It's built to quickly show when the process goes
+        <dfn>out of control (OOC)</dfn> because of an assignable cause.
+      </p>
+      <p>
+        Most processes follow a <dfn>normal distribution</dfn>, the
+        bell-shaped curve. Most values sit near the centre, and they become
+        rarer the further you move from it. In a normal distribution, about
+        68.26% of values fall within 1σ of the mean, 95.44% within 2σ, and
+        99.73% within 3σ.
+      </p>
+      <p>A typical control chart has three lines:</p>
+      <ul>
+        <li>The <strong>centre line</strong> is the mean (μ) of the measurement
+          when the process is in control.</li>
+        <li>The <strong>upper control limit (UCL)</strong> is usually set at
+          μ&nbsp;+&nbsp;3σ, where σ is the standard deviation.</li>
+        <li>The <strong>lower control limit (LCL)</strong> is usually set at
+          μ&nbsp;−&nbsp;3σ.</li>
+      </ul>
+      <p>
+        With limits at ±3σ, 99.73% of samples from an in-control process fall
+        between them. A sample outside the UCL or LCL is taken as evidence
+        that the process is out of control.
+      </p>
+      <p>
+        For example, say the mean via diameter is 74 with σ = 0.0045. Then the
+        UCL is 74 + 3 × 0.0045 = 74.0135 and the LCL is 74 − 3 × 0.0045 =
+        73.9865.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-7" aria-labelledby="lesson-7-title">
+      <p class="lesson-number">Lesson 7</p>
+      <h2 id="lesson-7-title" tabindex="-1">Patterns in control charts</h2>
+      <p>
+        A point beyond the control limits isn't the only warning sign. A
+        series of points that isn't random can also signal an out-of-control
+        situation, even when every point is inside the limits.
+      </p>
+      <ul>
+        <li><strong>Trend pattern:</strong> the points climb (or fall) steadily
+          over time. Several points in a row on the same side of the centre
+          line is called a <dfn>run</dfn>, and runs often show up in trends.
+          A run of several samples is very unlikely if the data were truly
+          random, so it can be treated as OOC.</li>
+        <li><strong>Cyclic pattern:</strong> the points rise and fall in a
+          regular wave. All of them may stay inside the limits, but the
+          rhythm suggests something periodic, such as operator fatigue or raw
+          material running low. Treat it as a possible OOC situation.</li>
+      </ul>
+    </section>
+
+    <section class="lesson" id="lesson-8" aria-labelledby="lesson-8-title">
+      <p class="lesson-number">Lesson 8</p>
+      <h2 id="lesson-8-title" tabindex="-1">Spotting OOC with the Western Electric rules</h2>
+      <p>
+        To catch non-random patterns like trends and cycles in a consistent
+        way, engineers use the <dfn>Western Electric (WE) rules</dfn>. They
+        split the chart into zones on each side of the centre line: zone C is
+        within 1σ, zone B is between 1σ and 2σ, and zone A is between 2σ and
+        3σ.
+      </p>
+      <p>A process is out of control if any of these happens:</p>
+      <ol>
+        <li>Any single point falls beyond the 3σ control limits.</li>
+        <li>Two out of three points in a row fall beyond the 2σ warning limits
+          (in zone A or beyond).</li>
+        <li>Four out of five points in a row fall beyond 1σ (in zone B or
+          beyond).</li>
+        <li>Nine points in a row fall on the same side of the centre line.</li>
+        <li>Six points in a row keep increasing, or keep decreasing.</li>
+        <li>Fourteen points in a row alternate up and down.</li>
+        <li>Fifteen points in a row fall in zone C, on either side of the
+          centre line.</li>
+        <li>Eight points in a row fall on both sides of the centre line, with
+          none in zone C.</li>
+      </ol>
+      <p>
+        Each rule describes something that rarely happens by chance, so
+        seeing one is a strong hint of OOC behaviour. Breaking any rule means
+        a special cause is present in the process or equipment. That cause
+        then has to be found and removed.
+      </p>
+      <p class="source">
+        Source: G. S. May &amp; C. J. Spanos, <cite>Semiconductor Manufacturing
+        and Process Control</cite>, Ch. 6.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-9" aria-labelledby="lesson-9-title">
+      <p class="lesson-number">Lesson 9</p>
+      <h2 id="lesson-9-title" tabindex="-1">Type I and Type II risks</h2>
+      <p>
+        Every time we read a control chart we make a decision: act, or leave
+        the process alone. There are two ways to get that decision wrong.
+      </p>
+      <h3>Type I risk (alpha, α): the producer's risk</h3>
+      <p>
+        This is crying wolf when there's no wolf, like convicting an innocent
+        defendant. In SPC terms, it means stepping in when the process is
+        actually fine. The cost is wasted investigation, and sometimes
+        scrapped wafers and lost revenue.
+      </p>
+      <h3>Type II risk (beta, β): the consumer's risk</h3>
+      <p>
+        This is failing to see the wolf that's really there, like letting a
+        guilty defendant go free. In SPC terms, it means not stepping in when
+        we should have. The cost is that defective wafers get shipped to the
+        customer.
+      </p>
+      <table>
+        <caption>Decisions and their outcomes</caption>
+        <thead>
+          <tr>
+            <th scope="col">Decision</th>
+            <th scope="col">No real problem</th>
+            <th scope="col">Real problem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Do nothing</th>
+            <td>Correct decision</td>
+            <td>Bad wafers shipped (Type II, β)</td>
+          </tr>
+          <tr>
+            <th scope="row">Do something</th>
+            <td>Lost revenue (Type I, α)</td>
+            <td>Correct decision</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="lesson" id="lesson-10" aria-labelledby="lesson-10-title">
+      <p class="lesson-number">Lesson 10</p>
+      <h2 id="lesson-10-title" tabindex="-1">Alpha risk and the 3σ limits</h2>
+      <p>
+        For a measurement that follows a normal distribution, 99.73% of points
+        should fall randomly between the ±3σ control limits. Turn that around:
+        about 0.27% of points will land outside the limits even when there's
+        no special cause.
+      </p>
+      <p>
+        That 0.27% is the alpha (Type I) risk of a standard 3σ control chart.
+        Roughly 1 in every 370 points will raise a false alarm, purely by
+        chance.
+      </p>
+    </section>
+
+    <section class="lesson" id="lesson-11" aria-labelledby="lesson-11-title">
+      <p class="lesson-number">Lesson 11</p>
+      <h2 id="lesson-11-title" tabindex="-1">How the control limits set your risk</h2>
+      <p>
+        Where you put the control limits decides how much of each risk you
+        take on:
+      </p>
+      <ul>
+        <li><strong>Limits too wide:</strong> real drifts in the process stay
+          inside the limits and go unnoticed. That means <em>high beta
+          risk</em>.</li>
+        <li><strong>Limits too tight:</strong> normal, stable variation keeps
+          crossing the limits, causing lots of unnecessary OOC alarms. That
+          means <em>high alpha risk</em>.</li>
+        <li><strong>Limits off-centre:</strong> if the limits are shifted
+          relative to the process, the side closer to the data raises too
+          many false alarms (high alpha risk). The side further away misses
+          real problems (high beta risk).</li>
+      </ul>
+    </section>
+
+    <section class="lesson" id="lesson-12" aria-labelledby="lesson-12-title">
+      <p class="lesson-number">Lesson 12</p>
+      <h2 id="lesson-12-title" tabindex="-1">Average run length</h2>
+      <p>
+        An important measure of any control chart is its
+        <dfn>average run length (ARL)</dfn>: the average number of samples
+        taken before a point goes beyond the control limits.
+      </p>
+      <p>When the process is <strong>in control</strong>:</p>
+      <p class="formula">ARL = 1 / α</p>
+      <p>
+        where α is the probability of a Type I error. A high ARL here is good,
+        because it means false alarms are rare. With 3σ limits, α = 0.0027,
+        so ARL = 1 / 0.0027 ≈ 370 samples.
+      </p>
+      <p>When the process is <strong>out of control</strong>:</p>
+      <p class="formula">ARL = 1 / (1 − β)</p>
+      <p>
+        where β is the probability of a Type II error. A low ARL here is good,
+        because it means the chart catches the problem quickly.
+      </p>
+    </section>
+  </main>
+
+  <div class="pager" hidden>
+    <button type="button" id="prev-lesson">Previous</button>
+    <p id="lesson-status" class="lesson-status" aria-live="polite"></p>
+    <button type="button" id="next-lesson">Next</button>
+  </div>
+
+  <footer class="site-footer">
+    <p>LU01: Statistical Process Control (SPC) I</p>
+  </footer>
+</body>
+</html>

@@ -8,12 +8,16 @@
 
 ## Project Structure
 
-The repository is nearly empty for now. Everything lives at the top level:
+Everything lives at the top level:
 
+- `index.html` — the whole course: header, lesson menu, all lessons,
+  previous/next buttons, footer.
+- `styles.css` — styling; light and dark colors are CSS variables.
+- `script.js` — theme toggle (saved in the browser) and lesson switching.
 - `CLAUDE.md` — this file.
 
-As pages are added, keep HTML, CSS, and JavaScript files at the top level
-unless we agree on folders. Update this section when the structure changes.
+Keep new files at the top level unless we agree on folders. Never commit the
+source slide deck. Update this section when the structure changes.
 
 ## Key Requirements
 
@@ -28,27 +32,28 @@ explain them in their own words.
 
 ### Site structure
 
-One long scrolling page (`index.html`), top to bottom:
+One page (`index.html`) that shows one lesson at a time:
 
 1. **Header**: course title and the light/dark theme toggle.
-2. **Lessons**: one per slide (3–5). Each has short explained paragraphs
-   plus any useful image or diagram from the slide.
-3. **Quiz after each lesson**: 1–3 multiple-choice questions. Answers are
-   checked instantly with a one-line explanation. Nothing is saved.
-4. **Footer**: short closing note.
+2. **Lesson menu**: links to every lesson.
+3. **Lessons**: one per content slide (12 for LU01). Each has a heading and
+   the slide's key points as explained paragraphs or a short list.
+4. **Quiz after each lesson** (not built yet): 1–3 multiple-choice
+   questions, checked instantly. Nothing is saved.
+5. **Previous/Next buttons** and a footer.
 
-Students move through the course by scrolling down. Each lesson is followed
-by its quiz, then the next lesson starts.
+Students switch lessons with the menu or Previous/Next. JavaScript shows the
+chosen lesson and hides the rest; the address ends in `#lesson-N`, so the
+back button and links to a lesson work. Without JavaScript, all lessons show.
 
 ### Phases
 
-- **Phase 1: course from the slides.** Ask for the slides (PDF or
-  PowerPoint) and confirm the lesson list and quiz questions with the user.
-  Then build `index.html`, `styles.css`, `script.js` and `images/`.
-- **Phase 2: check and polish.** Test on phone, tablet and desktop widths,
-  in both themes, and with a keyboard. Fix any problems found.
-- **Later (only if asked):** extras such as a lesson menu or a key-terms
-  summary.
+- **Phase 1: course from the slides.** Done: lessons, menu, lesson
+  switching and theme toggle, with plain styling. Quizzes and slide images
+  are still to do.
+- **Phase 2: design and polish.** Visual design, then test on phone,
+  tablet and desktop widths, in both themes, and with a keyboard.
+- **Later (only if asked):** extras such as a key-terms summary.
 
 ## Rules for Claude
 
