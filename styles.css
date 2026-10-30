@@ -86,6 +86,32 @@ button:disabled {
   cursor: default;
 }
 
+/* Lesson / Quiz tabs */
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Without JavaScript both panels show, so the tab bar is hidden */
+.tabs[hidden] {
+  display: none;
+}
+
+.tabs [role="tab"] {
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  background: none;
+  padding: 0.5rem 1rem;
+}
+
+.tabs [role="tab"][aria-selected="true"] {
+  font-weight: bold;
+  border-bottom-color: var(--text);
+}
+
 /* Lesson menu */
 .lesson-nav {
   padding: 1rem 0;
@@ -209,6 +235,38 @@ td {
 
 .check-in-result p {
   margin-top: 0.25rem;
+}
+
+/* Quiz tab */
+.quiz {
+  padding: 1rem 0;
+}
+
+.quiz h2 {
+  margin-top: 0.25rem;
+  font-size: 1.35rem;
+}
+
+.question-number {
+  display: block;
+  font-weight: normal;
+  color: var(--muted);
+}
+
+.quiz-score {
+  margin-top: 1.5rem;
+}
+
+#quiz-score {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#quiz-score:not(:empty) {
+  padding: 1rem;
+  border: 2px solid var(--text);
+  border-radius: 4px;
 }
 
 /* Previous / next */

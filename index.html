@@ -19,6 +19,13 @@
     </button>
   </header>
 
+  <main>
+  <div class="tabs" role="tablist" aria-label="Course sections" hidden>
+    <button type="button" role="tab" id="tab-lesson" aria-controls="panel-lesson" aria-selected="true">Lesson</button>
+    <button type="button" role="tab" id="tab-quiz" aria-controls="panel-quiz" aria-selected="false" tabindex="-1">Quiz</button>
+  </div>
+
+  <div class="tab-panel" role="tabpanel" id="panel-lesson" aria-labelledby="tab-lesson">
   <nav class="lesson-nav" aria-label="Lessons">
     <ol>
       <li><a href="#lesson-1">What is SPC?</a></li>
@@ -36,7 +43,7 @@
     </ol>
   </nav>
 
-  <main>
+  <div class="lessons">
     <section class="lesson" id="lesson-1" aria-labelledby="lesson-1-title">
       <p class="lesson-number">Lesson 1</p>
       <h2 id="lesson-1-title" tabindex="-1">What is statistical process control?</h2>
@@ -544,13 +551,134 @@
         </div>
       </form>
     </section>
-  </main>
+  </div>
 
   <div class="pager" hidden>
     <button type="button" id="prev-lesson">Previous</button>
     <p id="lesson-status" class="lesson-status" aria-live="polite"></p>
     <button type="button" id="next-lesson">Next</button>
   </div>
+  </div>
+
+  <div class="tab-panel" role="tabpanel" id="panel-quiz" aria-labelledby="tab-quiz">
+    <section class="quiz" aria-labelledby="quiz-title">
+      <h2 id="quiz-title" tabindex="-1">Course quiz</h2>
+      <p>
+        Eight questions on everything in LU01. Each answer is checked as you
+        go, and your score appears once you've answered all eight.
+      </p>
+
+      <form class="check-in quiz-question" data-answer="1" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 1 of 8</span> Which of these is part of measurement variation?</legend>
+          <label><input type="radio" name="answer" value="0"> A change in cleanroom humidity</label>
+          <label><input type="radio" name="answer" value="1"> Appraiser variation (AV)</label>
+          <label><input type="radio" name="answer" value="2"> Equipment parts wearing out</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Measurement variation comes from the metrology system: the tool itself (EV) and the people using it (AV). The other two are process variation.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="2" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 2 of 8</span> The relative humidity in the cleanroom rises. Which of the 6M is this?</legend>
+          <label><input type="radio" name="answer" value="0"> Method</label>
+          <label><input type="radio" name="answer" value="1"> Machine</label>
+          <label><input type="radio" name="answer" value="2"> Mother Nature</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Mother Nature covers the environment, such as cleanroom humidity and particle count.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="0" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 3 of 8</span> A process has only common (natural) causes of variation. How is it described?</legend>
+          <label><input type="radio" name="answer" value="0"> In statistical control</label>
+          <label><input type="radio" name="answer" value="1"> Out of control</label>
+          <label><input type="radio" name="answer" value="2"> Free of all variation</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Common causes are always there and don't cause bad results, so the process is in statistical control. It still has some variation.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="2" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 4 of 8</span> With control limits at ±3σ, what share of samples from an in-control process fall inside the limits?</legend>
+          <label><input type="radio" name="answer" value="0"> 68.26%</label>
+          <label><input type="radio" name="answer" value="1"> 95.44%</label>
+          <label><input type="radio" name="answer" value="2"> 99.73%</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>68.26% fall within 1σ and 95.44% within 2σ; 99.73% fall within 3σ.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="0" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 5 of 8</span> On a control chart, what is a “run”?</legend>
+          <label><input type="radio" name="answer" value="0"> Several points in a row on the same side of the centre line</label>
+          <label><input type="radio" name="answer" value="1"> A single point beyond the UCL</label>
+          <label><input type="radio" name="answer" value="2"> Points that alternate up and down</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>A run is very unlikely in truly random data, so it can be treated as an out-of-control signal.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="1" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 6 of 8</span> Six points in a row keep increasing, but all are inside the control limits. What does this mean?</legend>
+          <label><input type="radio" name="answer" value="0"> The process is in control, because no point is outside the limits</label>
+          <label><input type="radio" name="answer" value="1"> The process is out of control, because a Western Electric rule is broken</label>
+          <label><input type="radio" name="answer" value="2"> There is only a measurement problem</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Western Electric rule 5: six points in a row steadily increasing or decreasing signals an out-of-control process.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="1" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 7 of 8</span> A real problem goes unflagged and bad wafers are shipped to the customer. Which risk is this?</legend>
+          <label><input type="radio" name="answer" value="0"> Type I (alpha): the producer's risk</label>
+          <label><input type="radio" name="answer" value="1"> Type II (beta): the consumer's risk</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>Failing to step in when you should have is a Type II error. The customer pays for it, so it's called the consumer's risk.</p>
+        </div>
+      </form>
+      <form class="check-in quiz-question" data-answer="2" hidden>
+        <fieldset>
+          <legend><span class="question-number">Question 8 of 8</span> For an in-control process with standard 3σ limits, what is the average run length (ARL)?</legend>
+          <label><input type="radio" name="answer" value="0"> About 3 samples</label>
+          <label><input type="radio" name="answer" value="1"> About 100 samples</label>
+          <label><input type="radio" name="answer" value="2"> About 370 samples</label>
+        </fieldset>
+        <button type="submit">Check answer</button>
+        <p class="check-in-verdict" role="status"></p>
+        <div class="check-in-result" hidden>
+          <p>ARL = 1 / α, and α = 0.27% = 0.0027 for 3σ limits, so ARL = 1 / 0.0027 ≈ 370.</p>
+        </div>
+      </form>
+
+      <div class="quiz-score">
+        <p id="quiz-score" role="status"></p>
+        <button type="button" id="quiz-retry" hidden>Try again</button>
+      </div>
+    </section>
+  </div>
+  </main>
 
   <footer class="site-footer">
     <p>LU01: Statistical Process Control (SPC) I</p>

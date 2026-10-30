@@ -29,21 +29,36 @@ themeButton.addEventListener("click", () => {
   }
 });
 
-// Lessons: show one at a time. The address bar (#lesson-3) says which one,
-// so the back button, reloads and shared links all land on the right lesson.
+// Tabs and lessons. The address bar says what to show: #quiz opens the Quiz
+// tab, #lesson-3 opens the Lesson tab at lesson 3. So the back button,
+// reloads and shared links all land in the right place.
+const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+const lessonTab = document.getElementById("tab-lesson");
+const quizTab = document.getElementById("tab-quiz");
 const lessons = Array.from(document.querySelectorAll(".lesson"));
 const navLinks = Array.from(document.querySelectorAll(".lesson-nav a"));
 const prevButton = document.getElementById("prev-lesson");
 const nextButton = document.getElementById("next-lesson");
 const status = document.getElementById("lesson-status");
+let lastLessonIndex = 0;
 
 function currentIndex() {
   const index = lessons.findIndex((lesson) => "#" + lesson.id === location.hash);
-  return index === -1 ? 0 : index;
+  return index === -1 ? lastLessonIndex : index;
+}
+
+function selectTab(activeTab) {
+  tabs.forEach((tab) => {
+    const active = tab === activeTab;
+    tab.setAttribute("aria-selected", String(active));
+    tab.tabIndex = active ? 0 : -1;
+    document.getElementById(tab.getAttribute("aria-controls")).hidden = !active;
+  });
 }
 
 function showLesson(moveFocus) {
   const index = currentIndex();
+  lastLessonIndex = index;
 
   lessons.forEach((lesson, i) => {
     lesson.hidden = i !== index;
@@ -63,8 +78,18 @@ function showLesson(moveFocus) {
   if (moveFocus) {
     // Put keyboard and screen-reader users at the start of the new lesson.
     lessons[index].querySelector("h2").focus();
-    window.scrollTo(0, 0);
   }
+}
+
+function route(moveFocus) {
+  if (location.hash === "#quiz") {
+    selectTab(quizTab);
+    if (moveFocus) document.getElementById("quiz-title").focus();
+  } else {
+    selectTab(lessonTab);
+    showLesson(moveFocus);
+  }
+  if (moveFocus) window.scrollTo(0, 0);
 }
 
 function goTo(index) {
@@ -73,12 +98,45 @@ function goTo(index) {
 
 prevButton.addEventListener("click", () => goTo(currentIndex() - 1));
 nextButton.addEventListener("click", () => goTo(currentIndex() + 1));
-window.addEventListener("hashchange", () => showLesson(true));
 
-// Check-in questions: one per lesson, either multiple choice (radio buttons,
-// data-answer is the index of the right option) or short answer (a number,
-// accepted within data-tolerance). Once answered, the result and an
-// explanation show and the question locks; nothing is saved.
+// Set when a tab is clicked, so focus stays on the tab after the switch.
+// (Changing the address to #lesson-N makes the browser move focus into that
+// lesson, so we can't just check which element has focus.)
+let tabClicked = null;
+
+function openTab(tab, hash) {
+  if (location.hash === hash) return; // already open: nothing changes
+  tabClicked = tab;
+  location.hash = hash;
+}
+
+lessonTab.addEventListener("click", () => openTab(lessonTab, "#" + lessons[lastLessonIndex].id));
+quizTab.addEventListener("click", () => openTab(quizTab, "#quiz"));
+
+// Left/right arrow keys move between tabs, as in most tab interfaces.
+document.querySelector(".tabs").addEventListener("keydown", (event) => {
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+  const step = event.key === "ArrowRight" ? 1 : -1;
+  const next = tabs[(tabs.indexOf(event.target) + step + tabs.length) % tabs.length];
+  next.focus();
+  next.click();
+});
+
+window.addEventListener("hashchange", () => {
+  if (tabClicked) {
+    route(false);
+    tabClicked.focus();
+    tabClicked = null;
+  } else {
+    route(true);
+  }
+});
+
+// Questions: the check-in at the end of each lesson and the quiz questions
+// share the same markup. Either multiple choice (radio buttons, data-answer
+// is the index of the right option) or short answer (a number, accepted
+// within data-tolerance). Once answered, the result and an explanation show
+// and the question locks; nothing is saved.
 function checkAnswer(form) {
   const radios = form.querySelectorAll('input[type="radio"]');
 
@@ -103,17 +161,8 @@ function checkAnswer(form) {
   };
 }
 
-document.querySelectorAll(".check-in").forEach((form) => {
+function wireQuestion(form, onAnswered) {
   const verdict = form.querySelector(".check-in-verdict");
-  const result = form.querySelector(".check-in-result");
-  const continueButton = form.querySelector(".continue");
-  const lessonIndex = lessons.indexOf(form.closest(".lesson"));
-
-  if (lessonIndex === lessons.length - 1) {
-    continueButton.remove();
-  } else {
-    continueButton.addEventListener("click", () => goTo(lessonIndex + 1));
-  }
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -130,11 +179,65 @@ document.querySelectorAll(".check-in").forEach((form) => {
     verdict.className = "check-in-verdict " + (outcome.correct ? "is-correct" : "is-incorrect");
     form.querySelector("fieldset").disabled = true;
     form.querySelector('button[type="submit"]').hidden = true;
-    result.hidden = false;
+    form.querySelector(".check-in-result").hidden = false;
+    if (onAnswered) onAnswered(outcome.correct);
   });
 
   form.hidden = false;
+}
+
+function resetQuestion(form) {
+  form.reset();
+  form.dataset.correct = "";
+  const verdict = form.querySelector(".check-in-verdict");
+  verdict.textContent = "";
+  verdict.className = "check-in-verdict";
+  form.querySelector("fieldset").disabled = false;
+  form.querySelector('button[type="submit"]').hidden = false;
+  form.querySelector(".check-in-result").hidden = true;
+}
+
+document.querySelectorAll(".lesson .check-in").forEach((form) => {
+  const continueButton = form.querySelector(".continue");
+  const lessonIndex = lessons.indexOf(form.closest(".lesson"));
+
+  if (lessonIndex === lessons.length - 1) {
+    continueButton.remove();
+  } else {
+    continueButton.addEventListener("click", () => goTo(lessonIndex + 1));
+  }
+
+  wireQuestion(form);
 });
 
+// Quiz: the score appears once every question has been answered.
+const quizQuestions = Array.from(document.querySelectorAll(".quiz-question"));
+const quizScore = document.getElementById("quiz-score");
+const quizRetry = document.getElementById("quiz-retry");
+
+function updateScore() {
+  const answered = quizQuestions.filter((form) => form.dataset.correct);
+  if (answered.length < quizQuestions.length) return;
+  const right = answered.filter((form) => form.dataset.correct === "yes").length;
+  quizScore.textContent = `You scored ${right} out of ${quizQuestions.length}.`;
+  quizRetry.hidden = false;
+}
+
+quizQuestions.forEach((form) => {
+  wireQuestion(form, (correct) => {
+    form.dataset.correct = correct ? "yes" : "no";
+    updateScore();
+  });
+});
+
+quizRetry.addEventListener("click", () => {
+  quizQuestions.forEach(resetQuestion);
+  quizScore.textContent = "";
+  quizRetry.hidden = true;
+  document.getElementById("quiz-title").focus();
+  window.scrollTo(0, 0);
+});
+
+document.querySelector(".tabs").hidden = false;
 document.querySelector(".pager").hidden = false;
-showLesson(false);
+route(false);

@@ -10,11 +10,11 @@
 
 Everything lives at the top level:
 
-- `index.html` — the whole course: header, lesson menu, all lessons,
-  previous/next buttons, footer.
+- `index.html` — the whole course: header, Lesson and Quiz tabs, lesson
+  menu, all lessons, previous/next buttons, the quiz, footer.
 - `styles.css` — styling; light and dark colors are CSS variables.
-- `script.js` — theme toggle (saved in the browser), lesson switching and
-  check-in questions.
+- `script.js` — theme toggle (saved in the browser), tabs, lesson
+  switching, check-in questions and the quiz.
 - `CLAUDE.md` — this file.
 
 Keep new files at the top level unless we agree on folders. Never commit the
@@ -33,26 +33,33 @@ explain them in their own words.
 
 ### Site structure
 
-One page (`index.html`) that shows one lesson at a time:
+One page (`index.html`). Under the header (course title and light/dark
+theme toggle) are two tabs:
 
-1. **Header**: course title and the light/dark theme toggle.
-2. **Lesson menu**: links to every lesson.
-3. **Lessons**: one per content slide (12 for LU01). Each has a heading and
-   the slide's key points as explained paragraphs or a short list.
-4. **Check-in question** at the end of each lesson: one multiple-choice or
-   short numeric answer. Once answered it shows right/wrong, the correct
-   answer and a short explanation, then locks; "Next lesson" moves on either
-   way. Nothing is saved.
-5. **Previous/Next buttons** and a footer.
+- **Lesson** tab, showing one lesson at a time:
+  1. **Lesson menu**: links to every lesson.
+  2. **Lessons**: one per content slide (12 for LU01). Each has a heading
+     and the slide's key points as explained paragraphs or a short list.
+  3. **Check-in question** at the end of each lesson: one multiple-choice
+     or short numeric answer. Once answered it shows right/wrong, the
+     correct answer and a short explanation, then locks; "Next lesson"
+     moves on either way.
+  4. **Previous/Next buttons**.
+- **Quiz** tab: 8 multiple-choice questions on the whole course (different
+  from the check-ins). Each shows right/wrong once answered; the score shows
+  after all 8, with a "Try again" button.
+- A **Simulator** tab is added only if the course has a practice simulator
+  (LU01 has none).
 
-Students switch lessons with the menu or Previous/Next. JavaScript shows the
-chosen lesson and hides the rest; the address ends in `#lesson-N`, so the
-back button and links to a lesson work. Without JavaScript, all lessons show.
+Nothing the student answers is saved. The address says what's showing:
+`#lesson-N` for a lesson, `#quiz` for the quiz, so the back button and links
+work. Without JavaScript, everything shows on one long page.
 
 ### Phases
 
 - **Phase 1: course from the slides.** Done: lessons, menu, lesson
-  switching, check-in questions and theme toggle, with plain styling. Slide
+  switching, check-in questions, Lesson/Quiz tabs and theme toggle, with
+  plain styling. Slide
   images are still to do.
 - **Phase 2: design and polish.** Visual design, then test on phone,
   tablet and desktop widths, in both themes, and with a keyboard.
